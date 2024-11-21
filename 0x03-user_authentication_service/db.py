@@ -61,19 +61,6 @@ class DB:
 
     def find_user_by(self, **kwargs) -> User:
         """Find a user by arbitrary keyword arguments.
-
-        This method queries the database for a user matching the provided
-        keyword arguments and returns the first matching user.
-
-        Args:
-            **kwargs: Arbitrary keyword arguments representing user attributes.
-
-        Returns:
-            User: The found User object.
-
-        Raises:
-            InvalidRequestError: If an invalid query argument is provided.
-            NoResultFound: If no user matches the criteria.
         """
         session = self._session
         valid_columns = {column.name for column in User.__table__.columns}
@@ -90,18 +77,7 @@ class DB:
         return user
 
     def update_user(self, user_id: int, **kwargs) -> None:
-        """Update a user's attributes based on the provided keyword arguments.
-
-        This method locates the user by their `user_id` and updates their
-        attributes based on the provided keyword arguments.
-
-        Args:
-            user_id (int): The ID of the user to update.
-            **kwargs: Arbitrary keyword arguments representing user attributes.
-
-        Raises:
-            ValueError: If an invalid attribute is provided.
-        """
+        """Update a user's attributes based on the provided keyword"""
         user = self.find_user_by(id=user_id)
         valid_columns = {column.name for column in User.__table__.columns}
 
