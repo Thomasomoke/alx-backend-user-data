@@ -18,7 +18,7 @@ class DB:
     """DB class for managing database operations.
 
     This class handles the connection to the database and provides methods
-    for adding and finding users.
+    for adding, finding, and updating users.
     """
 
     def __init__(self) -> None:
@@ -88,3 +88,26 @@ class DB:
             raise NoResultFound("No user found matching the criteria.")
 
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """Update a user's attributes based on the provided keyword arguments.
+
+        This method locates the user by their `user_id` and updates their
+        attributes based on the provided keyword arguments.
+
+        Args:
+            user_id (int): The ID of the user to update.
+            **kwargs: Arbitrary keyword arguments representing user attributes.
+
+        Raises:
+            ValueError: If an invalid attribute is provided.
+        """
+        user = self.find_user_by(id=user_id)
+        valid_columns = {column.name for column in User.__table__.columns}
+
+        for key, value in kwargs.items():
+            if key not in valid_columns:
+                raise ValueError(f"Invalid attribute: {key}")
+            setattr(user, key, value)
+
+        self._session.commit()
