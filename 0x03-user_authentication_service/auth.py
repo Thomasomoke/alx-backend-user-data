@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
-"""Authentication module for user management.
-
-Provides functions for user authentication, including registration.
+"""Authentication module for user management
 """
 
 import bcrypt
 from db import DB
-from user import User  # Ensure User is imported
-from auth import _hash_password  # Ensure _hash_password is imported
-from sqlalchemy.orm.exc import NoResultFound  # Import NoResultFound
+from user import User
+from auth import _hash_password
+from sqlalchemy.orm.exc import NoResultFound
 
 
 def _hash_password(password: str) -> bytes:
     """Hash a password using bcrypt.
-
-    Takes a password string, generates a salt, and returns the salted hash.
+    Takes a password string
     """
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
